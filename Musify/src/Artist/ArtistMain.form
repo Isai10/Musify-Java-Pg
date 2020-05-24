@@ -49,7 +49,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="341" max="32767" attributes="0"/>
                   <Component id="label1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
                   <Component id="jButtonAddArtist" min="-2" max="-2" attributes="0"/>
@@ -76,9 +76,6 @@
             <Property name="text" type="java.lang.String" value="Add artist"/>
             <Property name="actionCommand" type="java.lang.String" value="jButtonAddArtist"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Add artist"/>
-          </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddArtistActionPerformed"/>
           </Events>
@@ -90,9 +87,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Artists"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Artists"/>
-          </AccessibilityProperties>
         </Component>
       </SubComponents>
     </Container>

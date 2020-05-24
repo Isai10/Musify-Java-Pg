@@ -10,10 +10,14 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.LayoutManager;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 /**
  *
@@ -27,7 +31,11 @@ public class ArtistMain extends javax.swing.JPanel {
      */
     public ArtistMain() {
         initComponents();
+        HidePanelArtists();
         ViewArtists();
+        JPopupMenu jppm = new JPopupMenu("Edit");
+       
+       // jppm.setVisible(true);
     }
     public void HidePanelArtists(){
         this.jPanelArtist1.setVisible(false);
@@ -38,57 +46,194 @@ public class ArtistMain extends javax.swing.JPanel {
         this.jPanelArtist6.setVisible(false);
         
     }
+    public boolean IncrementPage()
+    {
+         DBController connect = new DBController();
+         connect.SetConnection();
+         ArrayList<Artist> artists = connect.getArtists();
+         connect.CloseConnection();
+        if(HayPagina(pagina+1,artists))
+        {
+                    pagina++;
+                    return true;
+        }
+        return false;
+    }
+     public boolean DecrementPage()
+    {
+         DBController connect = new DBController();
+         connect.SetConnection();
+         ArrayList<Artist> artists = connect.getArtists();
+         connect.CloseConnection();
+         if(HayPagina(pagina-1,artists))
+         {
+             pagina--;
+             return true;
+        }
+        return false;
+    }
     public void ViewArtists(){
         DBController connect = new DBController();
         connect.SetConnection();
         ArrayList<Artist> artists = connect.getArtists();
+        
         if(artists!=null)
         {
-            Iterator it = artists.iterator();
+            
             Artist ar;
-            
-            int rx =1;
-            
-            while(it.hasNext() && rx <= 6)
+            artists = GetPagina(pagina,artists);
+            if(artists!=null && artists.size()>0) //Si hay elementos en la pagina 
             {
-                ar = (Artist)it.next();
-                switch(rx)
+                Iterator it = artists.iterator();
+                int rx =1;
+                while(it.hasNext() && rx <= 6)
                 {
-                    case 1:
-                        PreviewImage(ar.getImage(),this.jImageArtist1);
-                        this.jLabelNameArtist1.setText(ar.getArtistName());
-                        this.jPanelArtist1.setVisible(true);
-                    break;
-                    case 2:
-                        PreviewImage(ar.getImage(),this.jImageArtist2);
-                        this.jLabelNameArtist2.setText(ar.getArtistName());
-                        this.jPanelArtist1.setVisible(true);
-                    break;
-                    case 3:
-                         PreviewImage(ar.getImage(),this.jImageArtist3);
-                         this.jLabelNameArtist3.setText(ar.getArtistName());
-                         this.jPanelArtist1.setVisible(true);
-                    break;
-                    case 4:
-                        PreviewImage(ar.getImage(),this.jImageArtist4);
-                        this.jLabelNameArtist4.setText(ar.getArtistName());
-                        this.jPanelArtist1.setVisible(true);
-                    break;
-                    case 5:
-                         PreviewImage(ar.getImage(),this.jImageArtist5);
-                         this.jLabelNameArtist5.setText(ar.getArtistName());
-                         this.jPanelArtist1.setVisible(true);
-                    break;
-                    case 6:
-                         PreviewImage(ar.getImage(),this.jImageArtist6);
-                         this.jLabelNameArtist6.setText(ar.getArtistName());
-                         this.jPanelArtist1.setVisible(true);
-                    break;
+                    ar = (Artist)it.next();
+                    switch(rx)
+                    {
+                        case 1:
+                            PreviewImage(ar.getImage(),this.jImageArtist1);
+                            this.jLabelNameArtist1.setText(ar.getArtistName());
+                            this.jPanelArtist1.setVisible(true);
+
+                        break;
+                        case 2:
+                            PreviewImage(ar.getImage(),this.jImageArtist2);
+                            this.jLabelNameArtist2.setText(ar.getArtistName());
+                            this.jPanelArtist2.setVisible(true);
+                        break;
+                        case 3:
+                             PreviewImage(ar.getImage(),this.jImageArtist3);
+                             this.jLabelNameArtist3.setText(ar.getArtistName());
+                             this.jPanelArtist3.setVisible(true);
+                        break;
+                        case 4:
+                            PreviewImage(ar.getImage(),this.jImageArtist4);
+                            this.jLabelNameArtist4.setText(ar.getArtistName());
+                            this.jPanelArtist4.setVisible(true);
+                        break;
+                        case 5:
+                             PreviewImage(ar.getImage(),this.jImageArtist5);
+                             this.jLabelNameArtist5.setText(ar.getArtistName());
+                             this.jPanelArtist5.setVisible(true);
+                        break;
+                        case 6:
+                             PreviewImage(ar.getImage(),this.jImageArtist6);
+                             this.jLabelNameArtist6.setText(ar.getArtistName());
+                             this.jPanelArtist6.setVisible(true);
+                        break;
+                    }
+                    rx++;
+
                 }
-                rx++;
-               
             }
+            
         }
+    }
+    private ArrayList<Artist> GetPagina(int numPag,ArrayList<Artist> ar)
+    {
+        try{
+            ArrayList<Artist> pg = null;
+            if(numPag == 1)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 0 ; i < ar.size();i++ )
+                {
+                    pg.add(ar.get(i));
+                }
+            }
+            if(numPag == 2)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 6 ; i < ar.size();i++ )
+                {
+                    pg.add(ar.get(i));
+                }
+            }
+            if(numPag == 3)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 12 ; i < ar.size();i++ )
+                {
+                   pg.add(ar.get(i));
+                }
+            }
+            if(numPag == 4)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 18 ; i < ar.size();i++ )
+                {
+                    pg.add(ar.get(i));
+                }
+            }
+            if(numPag == 5)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 24 ; i < ar.size();i++ )
+                {
+                    pg.add(ar.get(i));
+                }
+            }
+            return pg;
+        }
+        catch(Exception ex)
+        {
+            return null;
+        }
+        
+    }
+    
+    private boolean HayPagina(int numPag,ArrayList<Artist>ar)
+    {
+        try{
+            ArrayList<Artist> pg = null;
+            if(numPag == 1)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 0 ; i < ar.size();i++ )
+                {
+                    return true;
+                }
+            }
+            if(numPag == 2)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 6 ; i < ar.size();i++ )
+                {
+                    return true;
+                }
+            }
+            if(numPag == 3)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 12 ; i < ar.size();i++ )
+                {
+                   return true;
+                }
+            }
+            if(numPag == 4)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 18 ; i < ar.size();i++ )
+                {
+                    return true;
+                }
+            }
+            if(numPag == 5)
+            {
+                pg = new ArrayList<Artist>();
+                for(int i = 24 ; i < ar.size();i++ )
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+        
     }
      private void PreviewImage(byte[] img, JLabel container){
         
@@ -152,7 +297,7 @@ public class ArtistMain extends javax.swing.JPanel {
         jPanelHeaderLayout.setHorizontalGroup(
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHeaderLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(341, Short.MAX_VALUE)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(217, 217, 217)
                 .addComponent(jButtonAddArtist)
@@ -167,9 +312,6 @@ public class ArtistMain extends javax.swing.JPanel {
                     .addComponent(jButtonAddArtist))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jButtonAddArtist.getAccessibleContext().setAccessibleName("Add artist");
-        label1.getAccessibleContext().setAccessibleName("Artists");
 
         jPanelContainerArtists.setAutoscrolls(true);
         jPanelContainerArtists.setPreferredSize(new java.awt.Dimension(745, 536));

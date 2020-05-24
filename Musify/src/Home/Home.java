@@ -24,6 +24,7 @@ public class Home extends javax.swing.JFrame {
     private PanelSong addPanelSong = new PanelSong();
     private ArtistMain aritstMain = new ArtistMain();
     private User user;
+    private String panelActual="";
     /**
      * Creates new form Home
      */
@@ -63,7 +64,6 @@ public class Home extends javax.swing.JFrame {
         jButtonBackPage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(927, 684));
         setMinimumSize(new java.awt.Dimension(927, 684));
 
         jLabel1.setText("Nombre del usuario");
@@ -119,19 +119,29 @@ public class Home extends javax.swing.JFrame {
         jPanelHome.setMinimumSize(new java.awt.Dimension(719, 617));
 
         jButtonNextPage.setText("Next >>");
+        jButtonNextPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNextPageActionPerformed(evt);
+            }
+        });
 
         jButtonBackPage.setText("<<Back");
+        jButtonBackPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBackPageActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(586, Short.MAX_VALUE)
+                .addContainerGap(574, Short.MAX_VALUE)
                 .addComponent(jButtonBackPage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonNextPage, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(22, 22, 22))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,7 +180,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                     .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelHome, javax.swing.GroupLayout.PREFERRED_SIZE, 748, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -409,7 +419,7 @@ public class Home extends javax.swing.JFrame {
         pack();
      }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
+        panelActual = "ARTISTS";        
         this.aritstMain.setVisible(true);
         this.aritstMain.ViewArtists();
         
@@ -426,6 +436,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButtonAlbumsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlbumsActionPerformed
+        panelActual = "ALBUMS";
         this.addAlbum.setVisible(true);
         initComponentsView(this.addAlbum);
         this.addAlbum.SetArtists();
@@ -435,6 +446,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAlbumsActionPerformed
 
     private void jButtonSongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSongActionPerformed
+        panelActual = "SONGS";
         this.addPanelSong.setVisible(true);
         initComponentsView(this.addPanelSong);
         this.addPanelSong.SetArtists();
@@ -442,6 +454,54 @@ public class Home extends javax.swing.JFrame {
         this.addAlbum.setVisible(false);
         this.aritstMain.setVisible(false);
     }//GEN-LAST:event_jButtonSongActionPerformed
+
+    private void jButtonNextPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextPageActionPerformed
+        switch(panelActual)
+        {
+            case"ARTISTS":
+                if(this.aritstMain.IncrementPage())
+                {
+                    this.aritstMain.HidePanelArtists();
+                    this.aritstMain.ViewArtists();
+                    this.jButtonBackPage.setEnabled(true);
+                }
+                else{
+                    this.jButtonNextPage.setEnabled(false);
+                    
+                }
+                break;
+            case"ALBUMS":
+                break;    
+            case"SONGS":
+                break;
+                
+        }
+        //this.aritstMain.IncrementPage();
+       //this.aritstMain.ViewArtists();
+    }//GEN-LAST:event_jButtonNextPageActionPerformed
+
+    private void jButtonBackPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBackPageActionPerformed
+        switch(panelActual)
+        {
+            case"ARTISTS":
+                if(this.aritstMain.DecrementPage())
+                {
+                    this.aritstMain.HidePanelArtists();
+                    this.aritstMain.ViewArtists();
+                    this.jButtonNextPage.setEnabled(true);
+                }
+                else{
+                    this.jButtonBackPage.setEnabled(false);
+                    
+                }
+                break;
+            case"ALBUMS":
+                break;    
+            case"SONGS":
+                break;
+                
+        }
+    }//GEN-LAST:event_jButtonBackPageActionPerformed
        
     /**
      * @param args the command line arguments
