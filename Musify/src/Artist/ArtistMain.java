@@ -17,6 +17,7 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 /**
@@ -95,32 +96,38 @@ public class ArtistMain extends javax.swing.JPanel {
                             PreviewImage(ar.getImage(),this.jImageArtist1);
                             this.jLabelNameArtist1.setText(ar.getArtistName());
                             this.jPanelArtist1.setVisible(true);
+                            this.jImageArtist1.setName(Integer.toHexString(ar.getId()));
 
                         break;
                         case 2:
                             PreviewImage(ar.getImage(),this.jImageArtist2);
                             this.jLabelNameArtist2.setText(ar.getArtistName());
                             this.jPanelArtist2.setVisible(true);
+                              this.jImageArtist2.setName(Integer.toHexString(ar.getId()));
                         break;
                         case 3:
                              PreviewImage(ar.getImage(),this.jImageArtist3);
                              this.jLabelNameArtist3.setText(ar.getArtistName());
                              this.jPanelArtist3.setVisible(true);
+                               this.jImageArtist3.setName(Integer.toHexString(ar.getId()));
                         break;
                         case 4:
                             PreviewImage(ar.getImage(),this.jImageArtist4);
                             this.jLabelNameArtist4.setText(ar.getArtistName());
                             this.jPanelArtist4.setVisible(true);
+                              this.jImageArtist4.setName(Integer.toHexString(ar.getId()));
                         break;
                         case 5:
                              PreviewImage(ar.getImage(),this.jImageArtist5);
                              this.jLabelNameArtist5.setText(ar.getArtistName());
                              this.jPanelArtist5.setVisible(true);
+                               this.jImageArtist5.setName(Integer.toHexString(ar.getId()));
                         break;
                         case 6:
                              PreviewImage(ar.getImage(),this.jImageArtist6);
                              this.jLabelNameArtist6.setText(ar.getArtistName());
                              this.jPanelArtist6.setVisible(true);
+                               this.jImageArtist6.setName(Integer.toHexString(ar.getId()));
                         break;
                     }
                     rx++;
@@ -323,6 +330,11 @@ public class ArtistMain extends javax.swing.JPanel {
         jImageArtist1.setMaximumSize(new java.awt.Dimension(161, 161));
         jImageArtist1.setMinimumSize(new java.awt.Dimension(161, 161));
         jImageArtist1.setPreferredSize(new java.awt.Dimension(161, 161));
+        jImageArtist1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jImageArtist1MouseClicked(evt);
+            }
+        });
 
         jLabelNameArtist1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelNameArtist1.setText("jLabelNameArtist1");
@@ -566,6 +578,22 @@ public class ArtistMain extends javax.swing.JPanel {
         artistform.setVisible(true);
         
     }//GEN-LAST:event_jButtonAddArtistActionPerformed
+
+    private void jImageArtist1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jImageArtist1MouseClicked
+        // TODO add your handling code here:
+        int clics = evt.getClickCount();
+        if(clics==2)
+        {
+            ArtistEditForm arFormEdit = new ArtistEditForm();
+            arFormEdit.setVisible(true);
+            arFormEdit.SetIdCurrenArtist(Integer.parseInt(this.jImageArtist1.getName()));
+            
+        }
+        else if(clics == 1)
+        {
+            
+        }
+    }//GEN-LAST:event_jImageArtist1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

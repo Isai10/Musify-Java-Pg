@@ -101,7 +101,39 @@ public class DBController {
             return null;
         }
     }
-    
+     public boolean ModifyArtist(Artist artist)
+     {
+         try{
+                    PreparedStatement statment = baseDatos.prepareStatement("UPDATE artist SET artistname = ? , image = ? , description = ? WHERE id = ?");
+                    statment.setString(1,artist.getArtistName());
+                    statment.setBytes(2,artist.getImage());
+                    statment.setString(3,artist.getDescription());                    
+                    statment.setInt(4, artist.getId());
+                    statment.executeUpdate();
+                    return true;
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null,ex.getMessage()+"\n"+ex.getLocalizedMessage());
+            return false;
+        }
+     }
+    public boolean RemoveArtist(int id)
+    {
+        try{
+                    PreparedStatement statment = baseDatos.prepareStatement("DELETE FROM artist WHERE id = ?");
+                    statment.setInt(1,id);
+                    statment.executeUpdate();
+                    return true;
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null,"¡No se puede eliminar el artista ya que tiene canciones y albums!"); 
+            return false;
+        }
+        
+        
+    }
     public boolean AddArtist(Artist artist){
        try{
                     PreparedStatement statment = baseDatos.prepareStatement("INSERT INTO artist (artistname,image,description) VALUES(?,?,?)");
@@ -138,6 +170,29 @@ public class DBController {
             return null;
         }
     }
+    public Artist getArtist(int id)
+    {
+        try{
+                    PreparedStatement statment = baseDatos.prepareStatement("SELECT * FROM artist WHERE id = ?");
+                    statment.setInt(1,id);
+                    ResultSet result = statment.executeQuery();
+                    result.next();
+                    Artist artist = new Artist();
+                    artist.setId(result.getInt(1));
+                    artist.setArtistName(result.getString(2));
+                    artist.setImage(result.getBytes(3));
+                    artist.setDescription(result.getString(4));
+                    artist.setNumAlbums(result.getInt(5));
+                    
+                    return artist;
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null,ex.getMessage()+"\n"+ex.getLocalizedMessage());
+            return null;
+        }
+    }
+    
     public ArrayList<Artist> getArtists(){
        try{
                     PreparedStatement statment = baseDatos.prepareStatement("SELECT * FROM artist");
