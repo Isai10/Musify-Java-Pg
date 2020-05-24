@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Musify">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/Musify.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
